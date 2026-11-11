@@ -253,8 +253,7 @@ td.mk-pro{color:var(--mk-red);font-weight:800}td.mk-con{color:var(--mk-maroon);f
 .mk{--mk-nodata:#d4d6dc}
 @media (prefers-color-scheme: dark){.mk{--mk-nodata:#34375c}}
 .mk-mapcard{margin-top:var(--cds-gap-lg)}
-.mk-mapgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:var(--cds-gap-lg);align-items:start}
-@media (max-width:700px){.mk-mapgrid{grid-template-columns:1fr}}
+.mk-mapgrid{max-width:760px;margin:0 auto}
 .mk-map svg path.mk-country{stroke:var(--mk-line);stroke-width:.6;stroke-linejoin:round;transition:opacity .15s}
 .mk-map svg path.mk-country.has{cursor:pointer}
 .mk-map svg path.mk-country.has:hover{stroke-width:1.8}
@@ -290,11 +289,10 @@ td.mk-pro{color:var(--mk-red);font-weight:800}td.mk-con{color:var(--mk-maroon);f
     </div>
   </div>
   <div class="mk-card mk-mapcard" id="card-map">
-    <h3 class="mk-h3">Who speaks another language? Adults across Europe, 2022</h3>
+    <h3 class="mk-h3">Who speaks another language in Europe?</h3>
     <p>Share of adults aged 25–64 who say they know at least one foreign language. It ranges from <b><span data-draw="val" data-source="langmap" data-field="pct" data-where="iso=SI" data-fmt="dec1">—</span>%</b> in Slovenia to under half in Bulgaria, Hungary and Romania; the EU average is <b><span data-draw="val" data-source="langmap" data-field="pct" data-where="iso=EU27" data-fmt="dec1">—</span>%</b>.</p>
     <div class="mk-mapgrid">
       <div class="mk-chart mk-map" id="chart-map" data-draw="langmap" data-source="langmap" role="img" aria-label="Map of Europe shaded by the share of adults who know at least one foreign language"></div>
-      <div class="mk-chart" id="chart-maprank" data-draw="langbars" data-source="langmap" role="img" aria-label="Countries ranked by the share of adults who know at least one foreign language"></div>
     </div>
     <p class="mk-cap"><b>Grey countries have no figure here.</b> Eurostat publishes data for them, but this page only shows numbers we could check in Eurostat’s published summaries, so nothing is estimated or filled in. Self-reported, any level of skill. Source: Eurostat Adult Education Survey 2022 (edat_aes_l21); figures for Germany, France, Italy, Ireland, Spain, Romania, Hungary and Bulgaria are 100 minus the published share who know no foreign language.</p>
   </div>
@@ -394,8 +392,8 @@ td.mk-pro{color:var(--mk-red);font-weight:800}td.mk-con{color:var(--mk-maroon);f
   <h2 class="mk-h2">The verdict, claim by claim</h2>
   <figure class="mk-c5art mk-reveal" id="verdict-art" aria-hidden="true">
     <svg viewBox="0 0 600 270" preserveAspectRatio="xMidYMid meet" role="presentation">
-      <g class="mk-spark mk-spark-4"><path transform="translate(-190 40) scale(1.3)" d="M70 60 L76 76 L92 82 L76 88 L70 104 L64 88 L48 82 L64 76Z"/></g>
-      <g class="mk-spark mk-spark-5"><path transform="translate(200 120) scale(1.2)" d="M535 70 L540 83 L553 88 L540 93 L535 106 L530 93 L517 88 L530 83Z"/></g>
+      <g class="mk-spark mk-spark-4"><path transform="translate(-190 40) scale(1.3)" d="M70 60 L76 76 L92 82 L76 88 L70 104 L64 88 L48 82 L64 76Z"></path></g>
+      <g class="mk-spark mk-spark-5"><path transform="translate(200 120) scale(1.2)" d="M535 70 L540 83 L553 88 L540 93 L535 106 L530 93 L517 88 L530 83Z"></path></g>
       <text x="-110" y="230" class="mk-sfxtxt mk-sfx-side">!!</text>
       <text x="690" y="70" class="mk-sfxtxt mk-sfx-side">♪</text>
       <g class="mk-spark mk-spark-1"><path transform="translate(-14 92)" d="M70 60 L76 76 L92 82 L76 88 L70 104 L64 88 L48 82 L64 76Z"></path></g>
@@ -830,25 +828,6 @@ dash.draw('langmap', function (el) {
   [40, 70, 100].forEach(function (v) { svg.append('text').attr('x', lx + (v - 40) / 60 * lw).attr('y', ly + 26).attr('text-anchor', v === 40 ? 'start' : v === 100 ? 'end' : 'middle').style('font-size', '13px').text(v + '%'); });
   svg.append('rect').attr('x', lx + lw + 24).attr('y', ly).attr('width', 14).attr('height', 10).attr('rx', 2).style('fill', 'var(--mk-nodata)').style('stroke', 'var(--mk-line)').style('stroke-width', 1);
   svg.append('text').attr('x', lx + lw + 44).attr('y', ly + 9).style('font-size', '13px').text('no figure shown');
-});
-dash.draw('langbars', function (el) {
-  const d = dash.data('langmap');
-  if (d.status !== 'ok' || !Array.isArray(d.data)) { el.replaceChildren(); return; }
-  const rows = d.data.slice().sort(function (a, b) { return b.pct - a.pct; });
-  el.replaceChildren();
-  const W = Math.max(220, el.clientWidth), rowH = 21, nameW = 92, valW = 44;
-  const H = rows.length * rowH + 4;
-  const x = d3.scaleLinear().domain([0, 100]).range([0, W - nameW - valW]);
-  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H).attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
-  const tip = window.mkTip(el);
-  const g = svg.selectAll('g').data(rows).join('g').attr('transform', function (r, i) { return 'translate(0,' + (i * rowH + 2) + ')'; });
-  g.append('text').attr('x', nameW - 6).attr('y', 13).attr('text-anchor', 'end').style('font-size', '12px').style('font-weight', function (r) { return r.iso === 'EU27' ? 800 : 500; }).style('fill', 'var(--mk-ink)').text(function (r) { return r.country; });
-  g.append('rect').attr('x', nameW).attr('y', 3).attr('height', 13).attr('rx', 2).attr('width', function (r) { return Math.max(2, x(r.pct)); })
-    .style('fill', function (r) { return r.iso === 'EU27' ? 'var(--mk-bar2)' : window.mkMapColor(r.pct); }).style('stroke', 'var(--mk-line)').style('stroke-width', 1.2);
-  g.append('text').attr('x', function (r) { return nameW + x(r.pct) + 5; }).attr('y', 14).style('font-size', '12px').style('font-weight', 700).style('fill', 'var(--mk-ink)').text(function (r) { return r.pct.toFixed(1) + '%'; });
-  g.append('rect').attr('width', W).attr('height', rowH).style('fill', 'transparent')
-    .on('pointermove', function (ev, r) { tip.show(ev, r.country, r.pct.toFixed(1) + '% know at least one foreign language · ' + r.source); })
-    .on('pointerleave', tip.hide);
 });
 </script>
 <script>
