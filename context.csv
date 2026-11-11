@@ -1,0 +1,13 @@
+id,topic,study,measure,value,lo,hi,unit,n,note,url
+isc_schools,International schools,"ISC Research, Global Market Overview (Aug 2025)",English-medium international K-12 schools worldwide,15075,,,schools,,,https://www.tes.com/magazine/news/specialist-sector/international-sector-passes-15000-school-milestone
+isc_students,International schools,"ISC Research, Global Market Overview (Aug 2025)",Students enrolled (millions),7.6,,,million,,,https://www.tes.com/magazine/news/specialist-sector/international-sector-passes-15000-school-milestone
+isc_asia,International schools,ISC Research (July 2025),Share of international schools: Asia,58,,,%,,,https://iscresearch.com/
+isc_americas,International schools,ISC Research (July 2025),Share of international schools: Americas,15,,,%,,,https://iscresearch.com/
+isc_europe,International schools,ISC Research (July 2025),Share of international schools: Europe,14,,,%,,,https://iscresearch.com/
+isc_africa,International schools,ISC Research (July 2025),Share of international schools: Africa,12,,,%,,,https://iscresearch.com/
+isc_oceania,International schools,ISC Research (July 2025),Share of international schools: Oceania,1,,,%,,,https://iscresearch.com/
+eu_1_all,Europe,Special Eurobarometer 540 (2024),EU adults who can converse in at least 1 foreign language,59,,,%,26523,,https://europa.eu/eurobarometer/surveys/detail/2979
+eu_1_young,Europe,Special Eurobarometer 540 (2024),Ages 15–24 who can converse in at least 1 foreign language,79,,,%,,,https://europa.eu/eurobarometer/surveys/detail/2979
+eu_2_all,Europe,Special Eurobarometer 540 (2024),EU adults who can converse in at least 2 foreign languages,28,,,%,,,https://europa.eu/eurobarometer/surveys/detail/2979
+eu_2_young,Europe,Special Eurobarometer 540 (2024),Ages 15–24 who can converse in at least 2 foreign languages,39,,,%,,,https://europa.eu/eurobarometer/surveys/detail/2979
+eu_home15,Europe,"European Commission, Europeans' language skills",15-year-olds whose home language differs from their school language,11.5,,,%,,,https://translation.ec.europa.eu/languages-eu-why-multilingualism-matters/europeans-language-skills_ro
