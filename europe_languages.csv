@@ -1,0 +1,20 @@
+iso,country,pct_at_least_one,pct_none,pct_three_plus,source,url
+SI,Slovenia,96.0,,56.3,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+SE,Sweden,95.8,,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+EE,Estonia,95.5,,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+LT,Lithuania,95.3,,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+LV,Latvia,95.0,,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+LU,Luxembourg,94.5,,54.1,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+NL,Netherlands,92.9,,40.2,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+FI,Finland,92.1,,38.1,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+CY,Cyprus,91.9,,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+DK,Denmark,90.3,,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
+DE,Germany,,12.3,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+FR,France,,22.6,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+IT,Italy,,32.1,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+IE,Ireland,,37.5,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+ES,Spain,,43.7,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+RO,Romania,,51.2,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+HU,Hungary,,51.3,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+BG,Bulgaria,,51.8,,"Eurostat edat_aes_l21 (AES 2022), as compiled by TripleTrad",https://www.tripletrad.com/how-many-americans-are-bilingual/
+EU27,EU average,,25.3,,"Eurostat, Foreign language skills statistics (AES 2022)",https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Foreign_language_skills_statistics
