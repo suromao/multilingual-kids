@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Growing Up Multilingual — What the Evidence Says</title>
+<meta name="description" content="An evidence review of the pros and cons of raising multilingual children, with infographics.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗣️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+:root{
+  color-scheme:light;
+  --color-fg:#14213d;--color-fg-muted:#5b6475;--color-bg:#fbfaf6;--color-panel:#ffffff;--color-border-line:#e3e0d6;
+  --color-ok:#1a7f5a;--color-warn:#b7791f;--color-bad:#c0392b;
+  --c0:#e4572e;--c1:#2a6f97;
+  --font-anthropic-sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-anthropic-serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --cds-font-size-caption:.8rem;--cds-font-size-body:1rem;--cds-font-size-heading:1.1rem;--cds-font-size-title:1.6rem;--cds-font-weight-medium:600;
+  --cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:14px;--cds-gap-lg:22px;--cds-gap-xl:36px;
+  --cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:14px;--cds-pad-lg:22px;--cds-pad-xl:40px;
+  --cds-radius:10px;
+  --cds-chart-muted:#9aa3b2;--cds-chart-grid:#ece9e0;--cds-chart-axis:#b9b5a8;--cds-chart-reference:#8a8578;
+  --cds-text-secondary:#5b6475;--cds-surface-popover:#ffffff;--cds-border:#e3e0d6;--cds-shadow-popover:0 6px 24px rgba(20,33,61,.14);
+}
+@media (prefers-color-scheme: dark){:root{
+  color-scheme:dark;
+  --color-fg:#ecebe6;--color-fg-muted:#a3a9b5;--color-bg:#10141c;--color-panel:#171d28;--color-border-line:#2a3242;
+  --color-ok:#4cc38a;--color-warn:#e0a84a;--color-bad:#f07167;
+  --c0:#ff7a50;--c1:#5fa8d3;
+  --cds-chart-muted:#6b7385;--cds-chart-grid:#222a38;--cds-chart-axis:#4a5366;--cds-chart-reference:#8a93a5;
+  --cds-text-secondary:#a3a9b5;--cds-surface-popover:#1d2432;--cds-border:#2a3242;--cds-shadow-popover:0 6px 24px rgba(0,0,0,.5);
+}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);
+  padding:calc(env(safe-area-inset-top,0px) + 8px) clamp(16px,4vw,40px) calc(env(safe-area-inset-bottom,0px) + 40px)}
+a{color:inherit}
+.dash-skeleton{min-height:1em;background:var(--color-border-line);border-radius:6px;animation:mkpulse 1.2s ease-in-out infinite}
+@keyframes mkpulse{50%{opacity:.5}}
+.mk-foot{max-width:980px;margin:40px auto 0;font-size:.8rem;color:var(--color-fg-muted);border-top:1px solid var(--color-border-line);padding-top:16px}
+</style>
+<script>
+/* Minimal stand-in for the dashboard runtime, so the page runs as a static site */
+(function(){
+  var DATA = {"research": [{"id": "ppvt_mono", "topic": "Vocabulary", "study": "Bialystok, Luk, Peets & Yang (2010), Bilingualism: Language and Cognition", "measure": "Monolingual children: English receptive vocabulary (PPVT standard score, mean)", "value": "106.8", "lo": null, "hi": null, "unit": "score", "n": "772", "note": "Children aged 3–10; population mean of the test is 100", "url": "https://doi.org/10.1017/S1366728909990423"}, {"id": "ppvt_bi", "topic": "Vocabulary", "study": "Bialystok, Luk, Peets & Yang (2010), Bilingualism: Language and Cognition", "measure": "Bilingual children: English receptive vocabulary (PPVT standard score, mean)", "value": "96.3", "lo": null, "hi": null, "unit": "score", "n": "966", "note": "All educated in English and using a second language daily at home", "url": "https://doi.org/10.1017/S1366728909990423"}, {"id": "home_mono", "topic": "Vocabulary", "study": "Bialystok, Luk, Peets & Yang (2010)", "measure": "Home-context words, % correct: monolingual 6-year-olds", "value": "77.1", "lo": null, "hi": null, "unit": "%", "n": "75", "note": "Words like food and household items", "url": "https://doi.org/10.1017/S1366728909990423"}, {"id": "home_bi", "topic": "Vocabulary", "study": "Bialystok, Luk, Peets & Yang (2010)", "measure": "Home-context words, % correct: bilingual 6-year-olds", "value": "70.4", "lo": null, "hi": null, "unit": "%", "n": "87", "note": null, "url": "https://doi.org/10.1017/S1366728909990423"}, {"id": "school_mono", "topic": "Vocabulary", "study": "Bialystok, Luk, Peets & Yang (2010)", "measure": "School-context words, % correct: monolingual 6-year-olds", "value": "77.7", "lo": null, "hi": null, "unit": "%", "n": "75", "note": "Words like shapes, animals, professions", "url": "https://doi.org/10.1017/S1366728909990423"}, {"id": "school_bi", "topic": "Vocabulary", "study": "Bialystok, Luk, Peets & Yang (2010)", "measure": "School-context words, % correct: bilingual 6-year-olds", "value": "75.6", "lo": null, "hi": null, "unit": "%", "n": "87", "note": null, "url": "https://doi.org/10.1017/S1366728909990423"}, {"id": "dh_both", "topic": "Home language", "study": "De Houwer (2007), Applied Psycholinguistics", "measure": "Families where children speak the home language: both parents speak it (at most one also speaks the local language)", "value": "93", "lo": null, "hi": null, "unit": "%", "n": "1899", "note": "Survey of 1,899 bilingual families in Flanders, Belgium", "url": "https://doi.org/10.1017/S0142716407070221"}, {"id": "dh_opol", "topic": "Home language", "study": "De Houwer (2007), Applied Psycholinguistics", "measure": "Families where children speak the home language: one parent, one language", "value": "74", "lo": null, "hi": null, "unit": "%", "n": "1899", "note": null, "url": "https://doi.org/10.1017/S0142716407070221"}, {"id": "dh_mixed", "topic": "Home language", "study": "De Houwer (2007), Applied Psycholinguistics", "measure": "Families where children speak the home language: one parent speaks both languages, the other only the local language", "value": "36", "lo": null, "hi": null, "unit": "%", "n": "1899", "note": null, "url": "https://doi.org/10.1017/S0142716407070221"}, {"id": "pearson_total", "topic": "Home language", "study": "Pearson, Fernández, Lewedeg & Oller (1997), Applied Psycholinguistics", "measure": "Bilingual infants followed (8–30 months)", "value": "25", "lo": null, "hi": null, "unit": "children", "n": "25", "note": null, "url": "https://www.cambridge.org/core/journals/applied-psycholinguistics/article/abs/relation-of-input-factors-to-lexical-learning-by-bilingual-infants/C6A5543B64BD9306A190A50DF0E3DF9B"}, {"id": "pearson_reluctant", "topic": "Home language", "study": "Pearson, Fernández, Lewedeg & Oller (1997), as summarised in Pearson (2007)", "measure": "Infants not comfortable enough to use their less-heard language", "value": "6", "lo": null, "hi": null, "unit": "children", "n": "25", "note": "Children with too little exposure to that language", "url": "https://www.cambridge.org/core/product/CFC8ACE008981588CB28DF1FBF13EA5D"}, {"id": "pearson_threshold", "topic": "Home language", "study": "Pearson et al. (1997), as summarised in later reviews", "measure": "Exposure share below which children were unwilling to use a language (approx.)", "value": "20", "lo": null, "hi": null, "unit": "%", "n": "25", "note": "A rough threshold, not a rule", "url": "https://www.cambridge.org/core/journals/applied-psycholinguistics/article/abs/relation-of-input-factors-to-lexical-learning-by-bilingual-infants/C6A5543B64BD9306A190A50DF0E3DF9B"}, {"id": "ef_lowe_raw", "topic": "Executive function", "study": "Lowe, Cho, Goldsmith & Morton (2021), Psychological Science", "measure": "Children's executive function: bilingual effect before bias correction (Hedges' g)", "value": "0.08", "lo": "0.01", "hi": "0.14", "unit": "g", "n": "1194", "note": "Effect sizes from children aged 3–17", "url": "https://www.pubmed.gov/34213379/"}, {"id": "ef_lowe_adj", "topic": "Executive function", "study": "Lowe, Cho, Goldsmith & Morton (2021), Psychological Science", "measure": "Children's executive function: after correcting for publication bias (Hedges' g)", "value": "-0.04", "lo": null, "hi": null, "unit": "g", "n": "1194", "note": "Indistinguishable from zero", "url": "https://www.pubmed.gov/34213379/"}, {"id": "lowe_n_bi", "topic": "Executive function", "study": "Lowe, Cho, Goldsmith & Morton (2021)", "measure": "Bilingual participants pooled", "value": "10937", "lo": null, "hi": null, "unit": "children", "n": null, "note": null, "url": "https://www.pubmed.gov/34213379/"}, {"id": "lowe_n_mono", "topic": "Executive function", "study": "Lowe, Cho, Goldsmith & Morton (2021)", "measure": "Monolingual participants pooled", "value": "12477", "lo": null, "hi": null, "unit": "children", "n": null, "note": null, "url": "https://www.pubmed.gov/34213379/"}, {"id": "ef_gunnerud", "topic": "Executive function", "study": "Gunnerud, ten Braak, Reikerås, Donolato & Melby-Lervåg (2020), Psychological Bulletin", "measure": "Children's overall executive function: bilingual effect (Hedges' g), with signs of publication bias", "value": "0.06", "lo": null, "hi": null, "unit": "g", "n": "143", "note": "143 group comparisons, children 18 and under", "url": "https://independent.academia.edu/HildeGunnerud"}, {"id": "ef_lehtonen", "topic": "Executive function", "study": "Lehtonen et al. (2018), Psychological Bulletin", "measure": "Adults: studies pooled; no advantage remained after bias correction", "value": null, "lo": null, "hi": null, "unit": null, "n": "152", "note": "891 effect sizes", "url": "https://doi.org/10.1037/bul0000142"}, {"id": "tom_all", "topic": "Social understanding", "study": "Schroeder (2018), Frontiers in Communication", "measure": "Theory of mind (understanding others' beliefs): bilingual effect, all studies (Cohen's d)", "value": "0.22", "lo": null, "hi": null, "unit": "d", "n": "1283", "note": "16 studies; no evidence of publication bias", "url": "https://doi.org/10.3389/fcomm.2018.00036"}, {"id": "tom_adj", "topic": "Social understanding", "study": "Schroeder (2018), Frontiers in Communication", "measure": "Theory of mind: bilingual effect in studies adjusting for language proficiency (Cohen's d)", "value": "0.58", "lo": null, "hi": null, "unit": "d", "n": "8", "note": "8 studies", "url": "https://doi.org/10.3389/fcomm.2018.00036"}, {"id": "dli_g5", "topic": "School results", "study": "Steele et al. (2017), RAND / American Educational Research Journal", "measure": "Grade 5 English reading: months ahead for students randomly assigned to dual-language immersion", "value": "7", "lo": null, "hi": null, "unit": "months", "n": "1600", "note": "Lottery-based study in Portland, Oregon; about 0.13 SD", "url": "https://www.edweek.org/teaching-learning/portland-dual-language-immersion-students-outperform-peers-in-reading/2015/11"}, {"id": "dli_g8", "topic": "School results", "study": "Steele et al. (2017), RAND / American Educational Research Journal", "measure": "Grade 8 English reading: months ahead for students randomly assigned to dual-language immersion", "value": "9", "lo": null, "hi": null, "unit": "months", "n": "1600", "note": "About 0.22 SD; no benefit or harm in maths or science", "url": "https://www.edweek.org/teaching-learning/portland-dual-language-immersion-students-outperform-peers-in-reading/2015/11"}, {"id": "dem_ad", "topic": "Later life", "study": "Brini et al. (2020), Neuropsychology Review", "measure": "Later onset of Alzheimer's symptoms in bilinguals (years)", "value": "4.7", "lo": "3.3", "hi": "6.1", "unit": "years", "n": null, "note": "Cross-sectional studies; prospective studies find no lower risk", "url": "https://doi.org/10.1007/s11065-020-09426-8"}, {"id": "dem_dx", "topic": "Later life", "study": "Brini et al. (2020), Neuropsychology Review", "measure": "Later dementia diagnosis in bilinguals (years)", "value": "3.3", "lo": "1.7", "hi": "4.9", "unit": "years", "n": null, "note": null, "url": "https://doi.org/10.1007/s11065-020-09426-8"}, {"id": "lang_bics", "topic": "School language", "study": "Cummins (1981, 1984); Collier (1987)", "measure": "Conversational fluency in a new school language (years)", "value": "2", "lo": "1", "hi": "2", "unit": "years", "n": null, "note": "Typical range", "url": "https://naldic.org.uk/eal-teaching-and-learning/outline-guidance/bilingualism/"}, {"id": "lang_calp", "topic": "School language", "study": "Cummins (1981, 1984); Collier (1987)", "measure": "Academic language on par with native peers, with first-language literacy (years)", "value": "7", "lo": "5", "hi": "7", "unit": "years", "n": null, "note": "Typical range", "url": "https://naldic.org.uk/eal-teaching-and-learning/outline-guidance/bilingualism/"}, {"id": "lang_nolit", "topic": "School language", "study": "Cummins; Collier (as summarised in later reviews)", "measure": "Academic language without strong first-language literacy (years)", "value": "10", "lo": "7", "hi": "10", "unit": "years", "n": null, "note": "Typical range", "url": "https://naldic.org.uk/eal-teaching-and-learning/outline-guidance/bilingualism/"}], "context": [{"id": "isc_schools", "topic": "International schools", "study": "ISC Research, Global Market Overview (Aug 2025)", "measure": "English-medium international K-12 schools worldwide", "value": "15075", "lo": null, "hi": null, "unit": "schools", "n": null, "note": null, "url": "https://www.tes.com/magazine/news/specialist-sector/international-sector-passes-15000-school-milestone"}, {"id": "isc_students", "topic": "International schools", "study": "ISC Research, Global Market Overview (Aug 2025)", "measure": "Students enrolled (millions)", "value": "7.6", "lo": null, "hi": null, "unit": "million", "n": null, "note": null, "url": "https://www.tes.com/magazine/news/specialist-sector/international-sector-passes-15000-school-milestone"}, {"id": "isc_asia", "topic": "International schools", "study": "ISC Research (July 2025)", "measure": "Share of international schools: Asia", "value": "58", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://iscresearch.com/"}, {"id": "isc_americas", "topic": "International schools", "study": "ISC Research (July 2025)", "measure": "Share of international schools: Americas", "value": "15", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://iscresearch.com/"}, {"id": "isc_europe", "topic": "International schools", "study": "ISC Research (July 2025)", "measure": "Share of international schools: Europe", "value": "14", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://iscresearch.com/"}, {"id": "isc_africa", "topic": "International schools", "study": "ISC Research (July 2025)", "measure": "Share of international schools: Africa", "value": "12", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://iscresearch.com/"}, {"id": "isc_oceania", "topic": "International schools", "study": "ISC Research (July 2025)", "measure": "Share of international schools: Oceania", "value": "1", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://iscresearch.com/"}, {"id": "eu_1_all", "topic": "Europe", "study": "Special Eurobarometer 540 (2024)", "measure": "EU adults who can converse in at least 1 foreign language", "value": "59", "lo": null, "hi": null, "unit": "%", "n": "26523", "note": null, "url": "https://europa.eu/eurobarometer/surveys/detail/2979"}, {"id": "eu_1_young", "topic": "Europe", "study": "Special Eurobarometer 540 (2024)", "measure": "Ages 15–24 who can converse in at least 1 foreign language", "value": "79", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://europa.eu/eurobarometer/surveys/detail/2979"}, {"id": "eu_2_all", "topic": "Europe", "study": "Special Eurobarometer 540 (2024)", "measure": "EU adults who can converse in at least 2 foreign languages", "value": "28", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://europa.eu/eurobarometer/surveys/detail/2979"}, {"id": "eu_2_young", "topic": "Europe", "study": "Special Eurobarometer 540 (2024)", "measure": "Ages 15–24 who can converse in at least 2 foreign languages", "value": "39", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://europa.eu/eurobarometer/surveys/detail/2979"}, {"id": "eu_home15", "topic": "Europe", "study": "European Commission, Europeans' language skills", "measure": "15-year-olds whose home language differs from their school language", "value": "11.5", "lo": null, "hi": null, "unit": "%", "n": null, "note": null, "url": "https://translation.ec.europa.eu/languages-eu-why-multilingualism-matters/europeans-language-skills_ro"}]};
+  var calcs = {}, draws = {};
+  function cols(rows){ return rows.length ? Object.keys(rows[0]) : []; }
+  window.dash = {
+    colors: ['var(--c0)','var(--c1)','var(--color-ok)','var(--color-warn)'],
+    data: function(id){
+      if (id in calcs) return {status:'ok', data:calcs[id]};
+      if (DATA[id]) { var d = DATA[id].slice(); d.columns = cols(DATA[id]); return {status:'ok', data:d}; }
+      return {status:'missing', data:[]};
+    },
+    calc: function(id, o){ calcs[id] = o.fn.apply(null, o.inputs.map(function(i){ return DATA[i] || calcs[i]; })); },
+    loader: function(){},
+    draw: function(name, fn){ if (fn) draws[name] = fn; else run(name); },
+    onData: function(fn){ fn(); },
+    refresh: function(){}, params: function(){ return {}; }, setParams: function(){}, resetParams: function(){},
+    setLink: function(id){ try { history.replaceState(null, '', '#' + id); } catch(e){} }
+  };
+  function run(name){
+    var fn = draws[name]; if (!fn) return;
+    document.querySelectorAll('[data-draw="' + name + '"]').forEach(function(el){
+      try { if (typeof fn === 'function') fn(el); else { var m = fn.mount ? fn.mount(el) : null; if (fn.update) fn.update(el, m); } } catch(e){ console.error(name, e); }
+    });
+  }
+  function runAll(){ Object.keys(draws).forEach(run); }
+  window.addEventListener('DOMContentLoaded', function(){
+    runAll();
+    var h = location.hash.slice(1); if (h) { var t = document.getElementById(h); if (t) t.scrollIntoView(); }
+  });
+  var w = window.innerWidth, timer;
+  window.addEventListener('resize', function(){ if (window.innerWidth === w) return; w = window.innerWidth; clearTimeout(timer); timer = setTimeout(runAll, 150); });
+})();
+</script>
+</head>
+<body>
+<style>
+.mk{font-family:var(--font-anthropic-sans);color:var(--color-fg);max-width:980px;margin:0 auto;line-height:1.55}
+.mk-hero{padding:var(--cds-pad-xl) 0 var(--cds-pad-lg);border-bottom:1px solid var(--color-border-line);margin-bottom:var(--cds-gap-xl)}
+.mk-kicker{font-size:var(--cds-font-size-caption);letter-spacing:.12em;text-transform:uppercase;color:var(--color-fg-muted);margin:0 0 var(--cds-gap-sm)}
+.mk-title{font-family:var(--font-anthropic-serif);font-weight:400;font-size:clamp(2rem,6vw,3.4rem);line-height:1.08;margin:0 0 var(--cds-gap-md)}
+.mk-lede{font-size:1.15rem;color:var(--color-fg-muted);max-width:44em;margin:0 0 var(--cds-gap-lg)}
+.mk-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--cds-gap-md)}
+.mk-kpi{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg)}
+.mk-kpi-num{font-family:var(--font-anthropic-serif);font-weight:400;font-size:2.4rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.mk-kpi-lbl{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin-top:var(--cds-gap-xs)}
+.mk-nav{display:flex;flex-wrap:wrap;gap:var(--cds-gap-sm);margin:var(--cds-gap-lg) 0 0}
+.mk-nav button{font:inherit;font-size:var(--cds-font-size-caption);background:transparent;color:var(--color-fg);border:1px solid var(--color-border-line);border-radius:999px;padding:.35em 1em;cursor:pointer}
+.mk-nav button:hover{background:var(--color-panel)}
+.mk-ch{margin:0 0 calc(var(--cds-gap-xl)*2);scroll-margin-top:var(--cds-gap-lg)}
+.mk-chnum{font-size:var(--cds-font-size-caption);letter-spacing:.12em;text-transform:uppercase;color:var(--color-fg-muted);margin:0}
+.mk-h2{font-family:var(--font-anthropic-serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.15;margin:var(--cds-gap-xs) 0 var(--cds-gap-md)}
+.mk-h3{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-xs)}
+.mk p{max-width:46em}
+.mk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:var(--cds-gap-lg)}
+.mk-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0}
+.mk-card p{margin:0 0 var(--cds-gap-sm)}
+.mk-tag{display:inline-block;font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);border-radius:999px;padding:.1em .7em;margin-bottom:var(--cds-gap-sm);border:1px solid currentColor}
+.mk-pro{color:var(--color-ok)}.mk-con{color:var(--color-bad)}.mk-mixed{color:var(--color-warn)}
+.mk-big{font-family:var(--font-anthropic-serif);font-weight:400;font-size:2rem;font-variant-numeric:tabular-nums}
+.mk-chart{position:relative;width:100%;min-height:150px;margin-top:var(--cds-gap-sm)}
+.mk-chart svg{display:block;overflow:visible}
+.mk-chart text{font-family:var(--font-anthropic-sans);font-size:12px;fill:var(--cds-text-secondary)}
+.mk-chart .mk-lbl{fill:var(--color-fg);font-size:13px}
+.mk-chart .mk-valtxt{fill:var(--color-fg);font-weight:600;font-variant-numeric:tabular-nums}
+.mk-cap{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin-top:var(--cds-gap-sm)}
+.mk-tip{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);box-shadow:var(--cds-shadow-popover);border-radius:var(--cds-radius);padding:.45em .7em;font-size:12px;max-width:240px;z-index:5;color:var(--color-fg)}
+.mk-tip b{display:block;margin-bottom:2px}
+.mk-tip span{color:var(--cds-text-secondary)}
+.mk-callout{border-left:3px solid var(--color-warn);padding:var(--cds-pad-sm) var(--cds-pad-md);background:var(--color-panel);border-radius:0 var(--cds-radius) var(--cds-radius) 0;margin:var(--cds-gap-md) 0}
+.mk-tablewrap{overflow-x:auto}
+.mk-table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:560px}
+.mk-table th,.mk-table td{text-align:left;padding:.65em .6em;border-bottom:1px solid var(--color-border-line);vertical-align:top}
+.mk-table th{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium);text-transform:uppercase;letter-spacing:.06em}
+.mk-dots{display:inline-flex;gap:3px}
+.mk-dot{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--color-fg-muted)}
+.mk-dot.on{background:var(--color-fg);border-color:var(--color-fg)}
+.mk-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:var(--cds-gap-md);padding:0;list-style:none;margin:0}
+.mk-tips li{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-md)}
+.mk-tips b{display:block;margin-bottom:var(--cds-gap-xs)}
+.mk details{margin-top:var(--cds-gap-lg);border-top:1px solid var(--color-border-line);padding-top:var(--cds-pad-md)}
+.mk summary{cursor:pointer;font-weight:var(--cds-font-weight-medium)}
+.mk-refs{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);padding-left:1.2em}
+[data-dash-source-state=refreshing]{opacity:.5}
+</style>
+
+<div class="mk" data-read lang="en">
+
+<header class="mk-hero" id="top">
+  <p class="mk-kicker">A data story for parents · Evidence review</p>
+  <h1 class="mk-title">Growing up multilingual: what the research really says</h1>
+  <p class="mk-lede">Raising children in two or more languages is common and safe — but some of the most famous “brain benefits” have shrunk under scrutiny, and the real costs are about time and effort, not harm. Here are the numbers behind the pros and cons.</p>
+  <div class="mk-kpis">
+    <div class="mk-kpi" id="kpi-schools"><div class="mk-kpi-num"><span data-draw="val" data-source="context" data-field="value" data-where="id=isc_schools" data-fmt="comma">—</span></div><div class="mk-kpi-lbl">English-medium international schools worldwide (ISC Research, 2025)</div></div>
+    <div class="mk-kpi" id="kpi-students"><div class="mk-kpi-num"><span data-draw="val" data-source="context" data-field="value" data-where="id=isc_students" data-fmt="dec1">—</span>M</div><div class="mk-kpi-lbl">children studying in them</div></div>
+    <div class="mk-kpi" id="kpi-eu"><div class="mk-kpi-num"><span data-draw="val" data-source="context" data-field="value" data-where="id=eu_1_young">—</span>%</div><div class="mk-kpi-lbl">of young Europeans (15–24) can hold a conversation in a foreign language</div></div>
+  </div>
+  <nav class="mk-nav" aria-label="Chapters">
+    <button type="button" data-goto="context">1 · The landscape</button>
+    <button type="button" data-goto="pros">2 · What holds up</button>
+    <button type="button" data-goto="hype">3 · The overhyped claim</button>
+    <button type="button" data-goto="cons">4 · The real costs</button>
+    <button type="button" data-goto="verdict">5 · Verdict &amp; tips</button>
+  </nav>
+</header>
+
+<section class="mk-ch" id="context">
+  <p class="mk-chnum">Chapter 1</p>
+  <h2 class="mk-h2">Your kids are in a fast-growing, mostly Asian, multilingual world</h2>
+  <div class="mk-grid">
+    <div class="mk-card" id="card-regions">
+      <h3 class="mk-h3">Where international schools are</h3>
+      <p>Share of the world’s international schools by region. Asia alone hosts <b data-draw="val" data-source="context" data-field="value" data-where="id=isc_asia">—</b>%.</p>
+      <div class="mk-chart" id="chart-regions" data-draw="regions" data-source="context" role="img" aria-label="Bar chart of international schools by region"></div>
+      <p class="mk-cap">Source: ISC Research, July 2025.</p>
+    </div>
+    <div class="mk-card" id="card-eu">
+      <h3 class="mk-h3">Europe is getting more multilingual with each generation</h3>
+      <p>Share of people who can hold a conversation in a foreign language, all EU adults vs. ages 15–24.</p>
+      <div class="mk-chart" id="chart-eu" data-draw="eu" data-source="context" role="img" aria-label="Bar chart comparing foreign-language ability among all EU adults and young people"></div>
+      <p class="mk-cap">Source: Special Eurobarometer 540 (2024), <span data-draw="val" data-source="context" data-field="n" data-where="id=eu_1_all" data-fmt="comma">—</span> interviews. Also, <span data-draw="val" data-source="context" data-field="value" data-where="id=eu_home15" data-fmt="dec1">—</span>% of EU 15-year-olds speak a different language at home than at school.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mk-ch" id="pros">
+  <p class="mk-chnum">Chapter 2</p>
+  <h2 class="mk-h2">The pros that hold up</h2>
+  <p>Start with the myth that worries parents most: <b>bilingualism does not cause language delay.</b> Bilingual babies babble, say first words and reach the 50-word mark on the same timetable as monolingual babies, and children with language disorders, autism or Down syndrome do no worse when raised with two languages. Mixing languages in one sentence (code-switching) is normal, not a sign of confusion.</p>
+  <div class="mk-grid">
+    <div class="mk-card" id="card-tom">
+      <span class="mk-tag mk-pro">Pro · moderate evidence</span>
+      <h3 class="mk-h3">Better at reading other people’s minds</h3>
+      <p>Bilingual children pass “theory of mind” tests — understanding that someone else can believe something false — somewhat earlier. Across the pooled studies of <span data-draw="val" data-source="research" data-field="n" data-where="id=tom_all" data-fmt="comma">—</span> children the effect was small (d = <span data-draw="val" data-source="research" data-field="value" data-where="id=tom_all" data-fmt="dec2">—</span>), rising to medium (d = <span data-draw="val" data-source="research" data-field="value" data-where="id=tom_adj" data-fmt="dec2">—</span>) once vocabulary differences were accounted for.</p>
+      <p class="mk-cap">Schroeder (2018), meta-analysis. No sign of publication bias, but fewer studies than other topics.</p>
+    </div>
+    <div class="mk-card" id="card-dli">
+      <span class="mk-tag mk-pro">Pro · strong evidence</span>
+      <h3 class="mk-h3">Learning in two languages didn’t hurt — it helped reading</h3>
+      <p>In Portland, kids were assigned to dual-language immersion by lottery — as close to a fair experiment as schools get. Immersion students were ahead in <i>English</i> reading, with no harm in maths or science.</p>
+      <div class="mk-chart" id="chart-dli" data-draw="dli" data-source="research" role="img" aria-label="Bar chart of months ahead in English reading at grades 5 and 8"></div>
+      <p class="mk-cap">Steele et al. (2017), RAND. More than <span data-draw="val" data-source="research" data-field="n" data-where="id=dli_g8" data-fmt="comma">—</span> lottery applicants; months of learning vs. non-immersion peers.</p>
+    </div>
+    <div class="mk-card" id="card-dem">
+      <span class="mk-tag mk-mixed">Pro · contested</span>
+      <h3 class="mk-h3">A possible buffer in old age</h3>
+      <p>In studies that look back at patients, bilinguals show dementia symptoms years later. Studies that follow people forward in time don’t find a lower risk, so think of this as “maybe delays symptoms”, not “prevents dementia”.</p>
+      <div class="mk-chart" id="chart-dem" data-draw="dementia" data-source="research" role="img" aria-label="Dot chart of years of delayed dementia onset with confidence intervals"></div>
+      <p class="mk-cap">Brini et al. (2020), meta-analysis. Dots show the estimate; lines show the 95% confidence interval.</p>
+    </div>
+    <div class="mk-card" id="card-life">
+      <span class="mk-tag mk-pro">Pro · self-evident</span>
+      <h3 class="mk-h3">The obvious one: more people to talk to</h3>
+      <p>The best-supported benefit is the plainest. Researchers who doubt the brain-training claims still stress that the value of bilingualism lies in the languages themselves — family ties across generations, friendships, travel and careers. In the Eurobarometer, Europeans most often named job opportunities as the main reason to learn a language.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mk-ch" id="hype">
+  <p class="mk-chnum">Chapter 3</p>
+  <h2 class="mk-h2">The overhyped claim: “bilingual brains are sharper”</h2>
+  <p>For years, headlines said that juggling two languages trains attention, self-control and task-switching (“executive function”). The large modern reviews find that effect is close to zero once you correct for <b>publication bias</b> — the tendency for exciting positive results to get published and null results to stay in drawers. The biggest review pooled <span data-draw="val" data-source="research" data-field="value" data-where="id=lowe_n_bi" data-fmt="comma">—</span> bilingual and <span data-draw="val" data-source="research" data-field="value" data-where="id=lowe_n_mono" data-fmt="comma">—</span> monolingual children; a review of adults pooled <span data-draw="val" data-source="research" data-field="n" data-where="id=ef_lehtonen">—</span> studies and found no advantage left after correction.</p>
+  <div class="mk-card" id="card-effects">
+    <h3 class="mk-h3">Effect sizes, side by side</h3>
+    <p>Each dot is a pooled estimate. 0 means no difference between bilingual and monolingual children; 0.2 is conventionally “small”, 0.5 “medium”.</p>
+    <div class="mk-chart" id="chart-effects" data-draw="effects" data-source="research" role="img" aria-label="Dot plot of effect sizes for executive function and theory of mind"></div>
+    <p class="mk-cap">Lowe et al. (2021), Psychological Science; Gunnerud et al. (2020), Psychological Bulletin; Schroeder (2018). The line on the first dot is its 95% confidence interval.</p>
+  </div>
+  <div class="mk-callout" id="hype-note"><b>What this means:</b> don’t choose bilingual education to make your child “smarter”. Choose it for the languages. The good news is that the evidence also shows no cognitive <i>cost</i>.</div>
+</section>
+
+<section class="mk-ch" id="cons">
+  <p class="mk-chnum">Chapter 4</p>
+  <h2 class="mk-h2">The real costs: time, vocabulary and the home language</h2>
+  <div class="mk-grid">
+    <div class="mk-card" id="card-ppvt">
+      <span class="mk-tag mk-con">Con · strong evidence, small and manageable</span>
+      <h3 class="mk-h3">Fewer words in each language — not fewer words overall</h3>
+      <p>In <span data-draw="val" data-source="research" data-field="n" data-where="id=ppvt_bi" data-fmt="comma">—</span> bilingual and <span data-draw="val" data-source="research" data-field="n" data-where="id=ppvt_mono" data-fmt="comma">—</span> monolingual children, bilinguals scored about <b data-draw="calcval" data-source="ppvt_gap">—</b> points lower on an English vocabulary test. Both groups were within the normal range, and the gap sits mostly in words used at home, which bilinguals know in their other language.</p>
+      <div class="mk-chart" id="chart-ppvt" data-draw="ppvt" data-source="research" role="img" aria-label="Bar chart of mean vocabulary scores for monolingual and bilingual children"></div>
+      <h3 class="mk-h3" style="margin-top:var(--cds-gap-md)">Where the gap is: home words vs. school words</h3>
+      <div class="mk-chart" id="chart-context" data-draw="vocabctx" data-source="research" role="img" aria-label="Dumbbell chart comparing home and school word knowledge"></div>
+      <p class="mk-cap">Bialystok et al. (2010); the home/school comparison is from a subgroup of six-year-olds. The dashed line marks the test’s population average of 100.</p>
+    </div>
+    <div class="mk-card" id="card-calp">
+      <span class="mk-tag mk-con">Con · well established</span>
+      <h3 class="mk-h3">Sounding fluent comes years before learning fluently</h3>
+      <p>A child new to a school language usually chats comfortably within about <span data-draw="val" data-source="research" data-field="value" data-where="id=lang_bics">—</span> years — but academic language (abstract vocabulary, essays, exam questions) takes far longer. That gap catches parents out after a move.</p>
+      <div class="mk-chart" id="chart-calp" data-draw="calp" data-source="research" role="img" aria-label="Range chart of years needed for conversational and academic language"></div>
+      <p class="mk-cap">Cummins (1981, 1984); Collier (1987). Typical ranges, with wide individual variation.</p>
+    </div>
+    <div class="mk-card" id="card-family">
+      <span class="mk-tag mk-con">Con · the biggest risk</span>
+      <h3 class="mk-h3">The home language can quietly fade</h3>
+      <p>Children always pick up the dominant local or school language. The home language is the one at risk. In <span data-draw="val" data-source="research" data-field="n" data-where="id=dh_both" data-fmt="comma">—</span> bilingual families, how parents used languages made a big difference to whether children actually spoke the home language:</p>
+      <div class="mk-chart" id="chart-family" data-draw="family" data-source="research" role="img" aria-label="Bar chart of share of families whose children speak the home language by parental pattern"></div>
+      <p class="mk-cap">De Houwer (2007), Flanders, Belgium. “One parent, one language” works often, but not always.</p>
+    </div>
+    <div class="mk-card" id="card-dose">
+      <span class="mk-tag mk-con">Con · small study, clear pattern</span>
+      <h3 class="mk-h3">Too little exposure, and kids won’t speak it</h3>
+      <p>Of <span data-draw="val" data-source="research" data-field="value" data-where="id=pearson_total">—</span> bilingual toddlers followed closely, <span data-draw="val" data-source="research" data-field="value" data-where="id=pearson_reluctant">—</span> understood their weaker language but weren’t comfortable speaking it. They heard it less than roughly <span data-draw="val" data-source="research" data-field="value" data-where="id=pearson_threshold">—</span>% of the time.</p>
+      <div class="mk-chart" id="chart-waffle" data-draw="waffle" data-source="research" style="min-height:90px" role="img" aria-label="Grid of toddlers highlighting those reluctant to speak their weaker language"></div>
+      <p class="mk-cap">Pearson, Fernández, Lewedeg &amp; Oller (1997). A rough guide, not a hard cut-off.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mk-ch" id="verdict">
+  <p class="mk-chnum">Chapter 5</p>
+  <h2 class="mk-h2">The verdict, claim by claim</h2>
+  <p>Our reading of the evidence above. “Strong” means large or experimental studies agree; “mixed” means good studies disagree.</p>
+  <div class="mk-tablewrap">
+    <table class="mk-table" id="verdict-table">
+      <thead><tr><th>Claim</th><th>Verdict</th><th>Evidence</th><th>Strength</th></tr></thead>
+      <tbody>
+        <tr><td>Bilingualism causes speech delay or confusion</td><td class="mk-con">Myth</td><td>Milestones on the same timetable; code-switching is normal</td><td><span class="mk-dots" aria-label="strong"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot on"></i></span></td></tr>
+        <tr><td>Learning in two languages hurts school results</td><td class="mk-con">Myth</td><td>Lottery study: better English reading, no maths/science cost</td><td><span class="mk-dots" aria-label="strong"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot on"></i></span></td></tr>
+        <tr><td>Bilingual children have smaller vocabularies in each language</td><td class="mk-mixed">True, minor</td><td>Small gap per language, mostly in home words; combined vocabulary similar</td><td><span class="mk-dots" aria-label="strong"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot on"></i></span></td></tr>
+        <tr><td>Academic language takes years longer than chatting</td><td class="mk-mixed">True</td><td>Chatting comes years before academic fluency</td><td><span class="mk-dots" aria-label="strong"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot on"></i></span></td></tr>
+        <tr><td>Home languages are at risk without effort</td><td class="mk-mixed">True</td><td>Whether children speak it depends heavily on how parents use languages at home</td><td><span class="mk-dots" aria-label="moderate"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot"></i></span></td></tr>
+        <tr><td>Bilinguals understand others’ perspectives earlier</td><td class="mk-pro">Probably</td><td>Small-to-medium effect across pooled studies</td><td><span class="mk-dots" aria-label="moderate"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot"></i></span></td></tr>
+        <tr><td>Bilingualism delays dementia</td><td class="mk-mixed">Unclear</td><td>Look-back studies say yes; follow-forward studies say no</td><td><span class="mk-dots" aria-label="weak"><i class="mk-dot on"></i><i class="mk-dot"></i><i class="mk-dot"></i></span></td></tr>
+        <tr><td>Bilingualism boosts general brainpower (executive function)</td><td class="mk-con">Overstated</td><td>Near zero after correcting for publication bias</td><td><span class="mk-dots" aria-label="strong"><i class="mk-dot on"></i><i class="mk-dot on"></i><i class="mk-dot on"></i></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mk-h3" style="margin-top:var(--cds-gap-xl)">What helps, for international-school families</h3>
+  <ul class="mk-tips">
+    <li><b>Protect the home language’s “dose”</b>Exposure matters more than any one method. Books, calls with grandparents, weekend classes, holidays and screen time in that language all add up.</li>
+    <li><b>Give the minority language more than half a chance</b>Children tend to need more input in a minority language than in the dominant one to reach the same level, because school and friends tip the balance.</li>
+    <li><b>Read and write it, not only speak it</b>Literacy in the first language makes later academic learning in the second easier, and keeps the home language useful as children grow.</li>
+    <li><b>Expect a lag after a move</b>Fluent playground chat doesn’t mean a child is ready for academic work in a new language. Ask the school about language support for several years, not months.</li>
+    <li><b>Don’t panic about mixing</b>Code-switching is normal. If you’re worried about a delay, have a specialist assess <i>both</i> languages — a real disorder shows up in both.</li>
+    <li><b>Count words across languages</b>When checking development, a bilingual child’s combined vocabulary is the fair comparison with monolingual norms.</li>
+  </ul>
+
+  <details id="method">
+    <summary>About the sources and how to read them</summary>
+    <p>Figures come from peer-reviewed meta-analyses (which pool many studies), one large randomised lottery study, large surveys and widely cited classic studies. Effect sizes (d or g) express differences in standard deviations; by convention about a fifth of one is “small” and half of one is “medium”. Studies differ in country, languages and family background, so treat each number as a general pattern, not a prediction for any one child. Each figure on this page links to its row in Sources, which also lists the full citation.</p>
+    <ul class="mk-refs">
+      <li>Bialystok, Luk, Peets &amp; Yang (2010). Receptive vocabulary differences in monolingual and bilingual children. <i>Bilingualism: Language and Cognition</i>.</li>
+      <li>Brini et al. (2020). Bilingualism is associated with a delayed onset of dementia but not with a lower risk of developing it. <i>Neuropsychology Review</i>.</li>
+      <li>Collier (1987), <i>TESOL Quarterly</i>; Cummins (1981, 1984) on conversational vs. academic language.</li>
+      <li>De Houwer (2007). Parental language input patterns and children’s bilingual use. <i>Applied Psycholinguistics</i>.</li>
+      <li>European Commission (2024). Special Eurobarometer 540: Europeans and their languages.</li>
+      <li>Gunnerud et al. (2020). Is bilingualism related to a cognitive advantage in children? <i>Psychological Bulletin</i>.</li>
+      <li>ISC Research (2025). International Schools Global Market Overview.</li>
+      <li>Lehtonen et al. (2018). Is bilingualism associated with enhanced executive functioning in adults? <i>Psychological Bulletin</i>.</li>
+      <li>Lowe, Cho, Goldsmith &amp; Morton (2021). The bilingual advantage in children’s executive functioning is not related to language status. <i>Psychological Science</i>.</li>
+      <li>Pearson, Fernández, Lewedeg &amp; Oller (1997), <i>Applied Psycholinguistics</i>; Pearson (2007), <i>Applied Psycholinguistics</i>.</li>
+      <li>Schroeder (2018). Do bilinguals have an advantage in theory of mind? <i>Frontiers in Communication</i>.</li>
+      <li>Steele et al. (2017). Effects of dual-language immersion programs on student achievement. RAND / <i>American Educational Research Journal</i>.</li>
+    </ul>
+  </details>
+</section>
+</div>
+
+<script>
+/* Shared helpers */
+window.mkRow = function (src, id) {
+  const d = dash.data(src);
+  if (d.status !== 'ok') return { status: d.status, row: null };
+  return { status: 'ok', row: d.data.find(function (r) { return r.id === id; }) || null };
+};
+window.mkFmt = function (v, f) {
+  const n = +v;
+  if (v === null || v === undefined || v === '' || isNaN(n)) return '—';
+  if (f === 'comma') return Math.round(n).toLocaleString('en-US');
+  if (f === 'dec1') return n.toFixed(1);
+  if (f === 'dec2') return n.toFixed(2);
+  return String(+n.toFixed(2));
+};
+window.mkPending = function (el, srcs) {
+  for (const s of srcs) {
+    const st = dash.data(s).status;
+    if (st !== 'ok') {
+      el.replaceChildren();
+      el.classList.toggle('dash-skeleton', st === 'loading');
+      if (st === 'error' || st === 'missing') { const p = document.createElement('p'); p.className = 'mk-cap'; p.textContent = 'Failed to load'; el.appendChild(p); }
+      return true;
+    }
+  }
+  el.classList.remove('dash-skeleton');
+  return false;
+};
+window.mkTip = function (el) {
+  const tip = document.createElement('div');
+  tip.className = 'mk-tip'; tip.hidden = true; el.appendChild(tip);
+  return {
+    show: function (ev, title, body) {
+      const b = document.createElement('b'); b.textContent = title;
+      const s = document.createElement('span'); s.textContent = body;
+      tip.replaceChildren(b, s); tip.hidden = false;
+      const r = el.getBoundingClientRect();
+      const x = (ev.clientX || r.left) - r.left, y = (ev.clientY || r.top) - r.top;
+      const w = tip.offsetWidth;
+      tip.style.left = Math.max(0, Math.min(r.width - w, x - w / 2)) + 'px';
+      tip.style.top = Math.max(0, y - tip.offsetHeight - 12) + 'px';
+    },
+    hide: function () { tip.hidden = true; }
+  };
+};
+/* Horizontal bars: rows = [{id,label,tip}] read from src; label above each bar */
+window.mkBars = function (el, src, items, opt) {
+  opt = opt || {};
+  if (window.mkPending(el, [src])) return;
+  const d = dash.data(src).data;
+  const rows = items.map(function (it) { const r = d.find(function (x) { return x.id === it.id; }); return r ? Object.assign({}, it, { v: +r.value, r: r }) : null; }).filter(Boolean);
+  el.replaceChildren();
+  const W = Math.max(240, el.clientWidth), rowH = 44, top = 4;
+  const H = rows.length * rowH + top + (opt.ref ? 16 : 0);
+  const max = opt.max || d3.max(rows, function (r) { return r.v; });
+  const valW = 64;
+  const x = d3.scaleLinear().domain([0, max]).range([0, W - valW]);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H).attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
+  const tip = window.mkTip(el);
+  const g = svg.selectAll('g.row').data(rows).join('g').attr('transform', function (r, i) { return 'translate(0,' + (top + i * rowH) + ')'; });
+  g.append('text').attr('class', 'mk-lbl').attr('y', 12).text(function (r) { return r.label; });
+  g.append('rect').attr('y', 18).attr('height', 16).attr('rx', 3).attr('width', function (r) { return Math.max(2, x(r.v)); })
+    .style('fill', function (r, i) { return r.color || dash.colors[opt.colorIdx ? opt.colorIdx(r, i) : 0]; });
+  g.append('text').attr('class', 'mk-valtxt').attr('x', function (r) { return x(r.v) + 6; }).attr('y', 31).text(function (r) { return (opt.prefix || '') + window.mkFmt(r.v, opt.fmt) + (opt.suffix || ''); });
+  g.append('rect').attr('y', 0).attr('height', rowH).attr('width', W).style('fill', 'transparent')
+    .on('pointermove', function (ev, r) { tip.show(ev, r.label, window.mkFmt(r.v, opt.fmt) + (opt.suffix || '') + ' · ' + (r.r.study || '')); })
+    .on('pointerleave', tip.hide);
+  if (opt.ref) {
+    const rx = x(opt.ref.v);
+    svg.append('line').attr('x1', rx).attr('x2', rx).attr('y1', top).attr('y2', H - 14).style('stroke', 'var(--cds-chart-reference)').style('stroke-dasharray', '4 3');
+    svg.append('text').attr('x', rx).attr('y', H - 2).attr('text-anchor', 'middle').text(opt.ref.label);
+  }
+};
+/* Dot + interval chart; rows = [{id,label}] */
+window.mkDots = function (el, src, items, opt) {
+  if (window.mkPending(el, [src])) return;
+  const d = dash.data(src).data;
+  const rows = items.map(function (it) { const r = d.find(function (x) { return x.id === it.id; }); return r && r.value !== null && r.value !== '' ? Object.assign({}, it, { v: +r.value, lo: (r.lo === null || r.lo === '') ? null : +r.lo, hi: (r.hi === null || r.hi === '') ? null : +r.hi, r: r }) : null; }).filter(Boolean);
+  el.replaceChildren();
+  const W = Math.max(240, el.clientWidth), rowH = 50, top = 6, axisH = 30;
+  const H = rows.length * rowH + top + axisH;
+  const x = d3.scaleLinear().domain(opt.domain).range([8, W - 48]);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H).attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
+  const tip = window.mkTip(el);
+  const ax = svg.append('g').attr('transform', 'translate(0,' + (H - axisH + 6) + ')').call(d3.axisBottom(x).ticks(Math.max(3, Math.floor(W / 90))).tickSizeOuter(0));
+  ax.selectAll('line,path').style('stroke', 'var(--cds-chart-axis)');
+  (opt.refs || []).forEach(function (rf) {
+    svg.append('line').attr('x1', x(rf.v)).attr('x2', x(rf.v)).attr('y1', top).attr('y2', H - axisH + 6).style('stroke', rf.strong ? 'var(--cds-chart-axis)' : 'var(--cds-chart-reference)').style('stroke-dasharray', rf.strong ? null : '4 3');
+    if (rf.label) svg.append('text').attr('x', x(rf.v) + 3).attr('y', top + 8).text(rf.label);
+  });
+  const g = svg.selectAll('g.row').data(rows).join('g').attr('transform', function (r, i) { return 'translate(0,' + (top + 6 + i * rowH) + ')'; });
+  g.append('text').attr('class', 'mk-lbl').attr('y', 12).attr('x', 0).text(function (r) { return r.label; });
+  g.filter(function (r) { return r.lo !== null; }).append('line').attr('x1', function (r) { return x(r.lo); }).attr('x2', function (r) { return x(r.hi); }).attr('y1', 30).attr('y2', 30).style('stroke', function (r) { return dash.colors[r.c || 0]; }).style('stroke-width', 3).style('stroke-linecap', 'round').style('opacity', .55);
+  g.append('circle').attr('cx', function (r) { return x(r.v); }).attr('cy', 30).attr('r', 7).style('fill', function (r) { return dash.colors[r.c || 0]; });
+  g.append('text').attr('class', 'mk-valtxt').attr('x', function (r) { return x(r.hi !== null ? Math.max(r.hi, r.v) : r.v) + 12; }).attr('y', 34).text(function (r) { return window.mkFmt(r.v, opt.fmt) + (opt.suffix || ''); });
+  g.append('rect').attr('width', W).attr('height', rowH).style('fill', 'transparent')
+    .on('pointermove', function (ev, r) { tip.show(ev, r.label, window.mkFmt(r.v, opt.fmt) + (opt.suffix || '') + (r.lo !== null ? ' (range ' + window.mkFmt(r.lo, opt.fmt) + ' to ' + window.mkFmt(r.hi, opt.fmt) + ')' : '') + ' · ' + r.r.study); })
+    .on('pointerleave', tip.hide);
+};
+</script>
+
+<script>
+/* Calculated value: vocabulary gap */
+dash.calc('ppvt_gap', {
+  inputs: ['research'],
+  title: 'Vocabulary score gap',
+  description: 'Monolingual minus bilingual mean English vocabulary score (Bialystok et al., 2010).',
+  fn: (research) => {
+    const mono = research.find((r) => r.id === 'ppvt_mono');
+    const bi = research.find((r) => r.id === 'ppvt_bi');
+    return mono && bi ? Math.round((+mono.value - +bi.value) * 10) / 10 : null;
+  }
+});
+</script>
+
+<script>
+dash.draw('val', function (el) {
+  const src = el.getAttribute('data-source');
+  const field = el.getAttribute('data-field');
+  const where = (el.getAttribute('data-where') || '').split('=');
+  const d = dash.data(src);
+  if (d.status !== 'ok') { el.textContent = '—'; el.classList.toggle('dash-skeleton', d.status === 'loading'); return; }
+  el.classList.remove('dash-skeleton');
+  const row = d.data.find(function (r) { return String(r[where[0]]) === decodeURIComponent(where[1] || ''); });
+  el.textContent = row ? window.mkFmt(row[field], el.getAttribute('data-fmt')) : '—';
+});
+dash.draw('calcval', function (el) {
+  const d = dash.data(el.getAttribute('data-source'));
+  if (d.status !== 'ok' || d.data === null) { el.textContent = '—'; return; }
+  el.textContent = window.mkFmt(d.data, 'dec1');
+});
+
+dash.draw('regions', function (el) {
+  window.mkBars(el, 'context', [
+    { id: 'isc_asia', label: 'Asia' }, { id: 'isc_americas', label: 'Americas' }, { id: 'isc_europe', label: 'Europe' },
+    { id: 'isc_africa', label: 'Africa' }, { id: 'isc_oceania', label: 'Oceania' }
+  ], { suffix: '%', max: 100, colorIdx: function (r, i) { return i === 0 ? 0 : 1; } });
+});
+dash.draw('eu', function (el) {
+  window.mkBars(el, 'context', [
+    { id: 'eu_1_all', label: '1+ foreign language · all adults' }, { id: 'eu_1_young', label: '1+ foreign language · ages 15–24' },
+    { id: 'eu_2_all', label: '2+ foreign languages · all adults' }, { id: 'eu_2_young', label: '2+ foreign languages · ages 15–24' }
+  ], { suffix: '%', max: 100, colorIdx: function (r, i) { return i % 2 === 0 ? 1 : 0; } });
+});
+dash.draw('dli', function (el) {
+  window.mkBars(el, 'research', [
+    { id: 'dli_g5', label: 'Grade 5 English reading' }, { id: 'dli_g8', label: 'Grade 8 English reading' }
+  ], { prefix: '+', suffix: ' months', max: 12 });
+});
+dash.draw('ppvt', function (el) {
+  window.mkBars(el, 'research', [
+    { id: 'ppvt_mono', label: 'Monolingual children' }, { id: 'ppvt_bi', label: 'Bilingual children' }
+  ], { max: 120, fmt: 'dec1', colorIdx: function (r, i) { return i === 0 ? 1 : 0; }, ref: { v: 100, label: 'test average 100' } });
+});
+dash.draw('family', function (el) {
+  window.mkBars(el, 'research', [
+    { id: 'dh_both', label: 'Both parents speak the home language' },
+    { id: 'dh_opol', label: 'One parent, one language' },
+    { id: 'dh_mixed', label: 'One parent bilingual, other local-language only' }
+  ], { suffix: '%', max: 100 });
+});
+dash.draw('dementia', function (el) {
+  window.mkDots(el, 'research', [
+    { id: 'dem_ad', label: 'Alzheimer’s symptoms appear later by' },
+    { id: 'dem_dx', label: 'Dementia diagnosed later by' }
+  ], { domain: [0, 7], fmt: 'dec1', suffix: ' yrs', refs: [{ v: 0, strong: true }] });
+});
+dash.draw('effects', function (el) {
+  window.mkDots(el, 'research', [
+    { id: 'ef_lowe_raw', label: 'Executive function · Lowe 2021 · as published', c: 1 },
+    { id: 'ef_lowe_adj', label: 'Executive function · Lowe 2021 · bias-corrected', c: 1 },
+    { id: 'ef_gunnerud', label: 'Executive function · Gunnerud 2020', c: 1 },
+    { id: 'tom_all', label: 'Theory of mind · Schroeder 2018 · all studies', c: 0 },
+    { id: 'tom_adj', label: 'Theory of mind · adjusted for vocabulary', c: 0 }
+  ], { domain: [-0.2, 0.8], fmt: 'dec2', refs: [{ v: 0, strong: true, label: 'no difference' }, { v: 0.2, label: 'small' }, { v: 0.5, label: 'medium' }] });
+});
+dash.draw('vocabctx', function (el) {
+  if (window.mkPending(el, ['research'])) return;
+  const d = dash.data('research').data;
+  const get = function (id) { const r = d.find(function (x) { return x.id === id; }); return r ? +r.value : null; };
+  const rows = [
+    { label: 'Home words (e.g. food, household)', mono: get('home_mono'), bi: get('home_bi') },
+    { label: 'School words (e.g. shapes, animals)', mono: get('school_mono'), bi: get('school_bi') }
+  ].filter(function (r) { return r.mono !== null && r.bi !== null; });
+  el.replaceChildren();
+  const W = Math.max(240, el.clientWidth), rowH = 50, axisH = 30, top = 6;
+  const H = rows.length * rowH + axisH + top + 18;
+  const x = d3.scaleLinear().domain([60, 85]).range([8, W - 40]);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H).attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
+  const tip = window.mkTip(el);
+  const lg = svg.append('g').attr('transform', 'translate(0,' + (top + 6) + ')');
+  [['Monolingual', 1], ['Bilingual', 0]].forEach(function (k, i) {
+    lg.append('circle').attr('cx', 6 + i * 110).attr('cy', 0).attr('r', 5).style('fill', dash.colors[k[1]]);
+    lg.append('text').attr('x', 15 + i * 110).attr('y', 4).text(k[0]);
+  });
+  const ax = svg.append('g').attr('transform', 'translate(0,' + (H - axisH + 6) + ')').call(d3.axisBottom(x).ticks(5).tickFormat(function (v) { return v + '%'; }).tickSizeOuter(0));
+  ax.selectAll('line,path').style('stroke', 'var(--cds-chart-axis)');
+  const g = svg.selectAll('g.row').data(rows).join('g').attr('transform', function (r, i) { return 'translate(0,' + (top + 24 + i * rowH) + ')'; });
+  g.append('text').attr('class', 'mk-lbl').attr('y', 10).text(function (r) { return r.label; });
+  g.append('line').attr('x1', function (r) { return x(r.bi); }).attr('x2', function (r) { return x(r.mono); }).attr('y1', 28).attr('y2', 28).style('stroke', 'var(--cds-chart-muted)').style('stroke-width', 3);
+  g.append('circle').attr('cx', function (r) { return x(r.mono); }).attr('cy', 28).attr('r', 7).style('fill', dash.colors[1]);
+  g.append('circle').attr('cx', function (r) { return x(r.bi); }).attr('cy', 28).attr('r', 7).style('fill', dash.colors[0]);
+  g.append('rect').attr('width', W).attr('height', rowH).style('fill', 'transparent')
+    .on('pointermove', function (ev, r) { tip.show(ev, r.label, 'Monolingual ' + r.mono.toFixed(1) + '% · Bilingual ' + r.bi.toFixed(1) + '% correct'); })
+    .on('pointerleave', tip.hide);
+});
+dash.draw('calp', function (el) {
+  if (window.mkPending(el, ['research'])) return;
+  const d = dash.data('research').data;
+  const items = [
+    { id: 'lang_bics', label: 'Conversational fluency', c: 0 },
+    { id: 'lang_calp', label: 'Academic language (literate in first language)', c: 1 },
+    { id: 'lang_nolit', label: 'Academic language (weak first-language literacy)', c: 1 }
+  ];
+  const rows = items.map(function (it) { const r = d.find(function (x) { return x.id === it.id; }); return r ? Object.assign({}, it, { lo: +r.lo, hi: +r.hi, r: r }) : null; }).filter(Boolean);
+  el.replaceChildren();
+  const W = Math.max(240, el.clientWidth), rowH = 46, axisH = 30, top = 4;
+  const H = rows.length * rowH + axisH + top;
+  const x = d3.scaleLinear().domain([0, 10]).range([8, W - 70]);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H).attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
+  const tip = window.mkTip(el);
+  const ax = svg.append('g').attr('transform', 'translate(0,' + (H - axisH + 6) + ')').call(d3.axisBottom(x).ticks(W < 360 ? 5 : 10).tickFormat(function (v) { return v + 'y'; }).tickSizeOuter(0));
+  ax.selectAll('line,path').style('stroke', 'var(--cds-chart-axis)');
+  const g = svg.selectAll('g.row').data(rows).join('g').attr('transform', function (r, i) { return 'translate(0,' + (top + i * rowH) + ')'; });
+  g.append('text').attr('class', 'mk-lbl').attr('y', 12).text(function (r) { return r.label; });
+  g.append('rect').attr('x', x(0)).attr('y', 20).attr('height', 14).attr('rx', 3).attr('width', function (r) { return x(r.lo) - x(0); }).style('fill', 'var(--cds-chart-muted)').style('opacity', .35);
+  g.append('rect').attr('x', function (r) { return x(r.lo); }).attr('y', 20).attr('height', 14).attr('rx', 3).attr('width', function (r) { return Math.max(4, x(r.hi) - x(r.lo)); }).style('fill', function (r) { return dash.colors[r.c]; });
+  g.append('text').attr('class', 'mk-valtxt').attr('x', function (r) { return x(r.hi) + 6; }).attr('y', 32).text(function (r) { return r.lo + '–' + r.hi + ' yrs'; });
+  g.append('rect').attr('width', W).attr('height', rowH).style('fill', 'transparent')
+    .on('pointermove', function (ev, r) { tip.show(ev, r.label, 'About ' + r.lo + ' to ' + r.hi + ' years · ' + r.r.study); })
+    .on('pointerleave', tip.hide);
+});
+dash.draw('waffle', function (el) {
+  if (window.mkPending(el, ['research'])) return;
+  const d = dash.data('research').data;
+  const tot = d.find(function (x) { return x.id === 'pearson_total'; });
+  const rel = d.find(function (x) { return x.id === 'pearson_reluctant'; });
+  if (!tot || !rel) { el.replaceChildren(); return; }
+  const n = +tot.value, k = +rel.value;
+  el.replaceChildren();
+  const W = Math.max(240, el.clientWidth), size = Math.min(28, (W - 4) / n * 2.2), per = Math.max(1, Math.floor(W / size));
+  const cols = Math.min(n, per), rowsN = Math.ceil(n / cols);
+  const H = rowsN * size + 28;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H).attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
+  const tip = window.mkTip(el);
+  const data = d3.range(n).map(function (i) { return { i: i, on: i < k }; });
+  svg.selectAll('circle').data(data).join('circle')
+    .attr('cx', function (p) { return (p.i % cols) * size + size / 2; })
+    .attr('cy', function (p) { return Math.floor(p.i / cols) * size + size / 2; })
+    .attr('r', size * 0.38)
+    .style('fill', function (p) { return p.on ? dash.colors[0] : 'var(--cds-chart-muted)'; })
+    .style('opacity', function (p) { return p.on ? 1 : 0.4; })
+    .on('pointermove', function (ev, p) { tip.show(ev, p.on ? 'Reluctant speaker' : 'Spoke both languages', 'One toddler in the study'); })
+    .on('pointerleave', tip.hide);
+  const lg = svg.append('g').attr('transform', 'translate(0,' + (rowsN * size + 18) + ')');
+  lg.append('circle').attr('cx', 6).attr('cy', -4).attr('r', 5).style('fill', dash.colors[0]);
+  lg.append('text').attr('x', 15).attr('y', 0).text('understood but wouldn’t speak their weaker language');
+});
+</script>
+
+<script>
+/* Chapter navigation */
+document.querySelectorAll('.mk-nav button[data-goto]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    const id = b.getAttribute('data-goto');
+    const t = document.getElementById(id);
+    if (t) { t.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); dash.setLink(id); }
+  });
+});
+</script>
+
+<footer class="mk-foot">Figures are transcribed from the published studies listed above; the raw data is in <a href="data/research.csv">research.csv</a> and <a href="data/context.csv">context.csv</a>. Not medical or educational advice.</footer>
+</body>
+</html>
