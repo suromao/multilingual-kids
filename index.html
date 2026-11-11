@@ -254,6 +254,8 @@ td.mk-pro{color:var(--mk-red);font-weight:800}td.mk-con{color:var(--mk-maroon);f
 @media (prefers-color-scheme: dark){.mk{--mk-nodata:#34375c}}
 .mk-mapcard{margin-top:var(--cds-gap-lg)}
 .mk-mapgrid{max-width:760px;margin:0 auto}
+.mk-map{min-height:0}
+.mk-map svg{display:block;width:100%;height:auto;max-height:min(62vh,520px);margin:0 auto}
 .mk-map svg path.mk-country{stroke:var(--mk-line);stroke-width:.6;stroke-linejoin:round;transition:opacity .15s}
 .mk-map svg path.mk-country.has{cursor:pointer}
 .mk-map svg path.mk-country.has:hover{stroke-width:1.8}
@@ -809,7 +811,7 @@ dash.draw('langmap', function (el) {
   const byIso = {}; d.data.forEach(function (r) { byIso[r.iso] = r; });
   const G = window.mkEurope;
   el.replaceChildren();
-  const svg = d3.select(el).append('svg').attr('viewBox', '0 0 ' + G.w + ' ' + (G.h + 46)).attr('width', '100%').attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
+  const svg = d3.select(el).append('svg').attr('viewBox', '0 0 ' + G.w + ' ' + (G.h + 48)).attr('width', '100%').attr('role', 'img').attr('aria-label', el.getAttribute('aria-label') || '');
   const tip = window.mkTip(el);
   svg.append('g').selectAll('path').data(G.f).join('path')
     .attr('class', function (f) { return 'mk-country' + (byIso[f.iso] ? ' has' : ''); })
@@ -820,14 +822,14 @@ dash.draw('langmap', function (el) {
       tip.show(ev, f.name, r ? r.pct.toFixed(1) + '% know at least one foreign language' + (r.three_plus !== null ? ' · ' + r.three_plus.toFixed(1) + '% know three or more' : '') : 'No figure included on this page');
     })
     .on('pointerleave', tip.hide);
-  const lw = Math.min(260, G.w - 20), lx = 10, ly = G.h + 12;
+  const nw = 60, gap = 18, lx = 10, ly = G.h + 10, lw = Math.min(300, G.w - 20 - nw - gap), gx = lx + nw + gap;
   const defs = svg.append('defs'); const gid = 'mkgrad' + Math.random().toString(36).slice(2, 7);
   const grad = defs.append('linearGradient').attr('id', gid);
   [0, 0.5, 1].forEach(function (o) { grad.append('stop').attr('offset', o).attr('stop-color', window.mkMapColor(40 + o * 60)); });
-  svg.append('rect').attr('x', lx).attr('y', ly).attr('width', lw).attr('height', 10).attr('rx', 2).attr('fill', 'url(#' + gid + ')').style('stroke', 'var(--mk-line)').style('stroke-width', 1);
-  [40, 70, 100].forEach(function (v) { svg.append('text').attr('x', lx + (v - 40) / 60 * lw).attr('y', ly + 26).attr('text-anchor', v === 40 ? 'start' : v === 100 ? 'end' : 'middle').style('font-size', '13px').text(v + '%'); });
-  svg.append('rect').attr('x', lx + lw + 24).attr('y', ly).attr('width', 14).attr('height', 10).attr('rx', 2).style('fill', 'var(--mk-nodata)').style('stroke', 'var(--mk-line)').style('stroke-width', 1);
-  svg.append('text').attr('x', lx + lw + 44).attr('y', ly + 9).style('font-size', '13px').text('no figure shown');
+  svg.append('rect').attr('x', lx).attr('y', ly).attr('width', nw).attr('height', 12).attr('rx', 2).style('fill', 'var(--mk-nodata)').style('stroke', 'var(--mk-line)').style('stroke-width', 1);
+  svg.append('text').attr('x', lx + nw / 2).attr('y', ly + 30).attr('text-anchor', 'middle').style('font-size', '15px').text('No data');
+  svg.append('rect').attr('x', gx).attr('y', ly).attr('width', lw).attr('height', 12).attr('rx', 2).attr('fill', 'url(#' + gid + ')').style('stroke', 'var(--mk-line)').style('stroke-width', 1);
+  [40, 70, 100].forEach(function (v) { svg.append('text').attr('x', gx + (v - 40) / 60 * lw).attr('y', ly + 30).attr('text-anchor', v === 40 ? 'start' : v === 100 ? 'end' : 'middle').style('font-size', '15px').text(v + '%'); });
 });
 </script>
 <script>
